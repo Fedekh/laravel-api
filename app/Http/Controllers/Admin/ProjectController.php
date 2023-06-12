@@ -20,7 +20,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::paginate(10);
         $count = Project::count();
         $butt= true;
         $technologies=Technology::all();

@@ -85,5 +85,8 @@
         </tbody>
 
     </table>
+    <div>
+        {{ $projects->links() }}
+    </div>
     @include('admin.projects.delete')
 @endsection
