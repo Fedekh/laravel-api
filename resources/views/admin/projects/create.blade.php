@@ -5,7 +5,7 @@
         <h1 class="my-3 tiping">Inserisci il tuo project : </h1>
 
 
-        <form action="{{ route('admin.projects.store') }}" method="POST">
+        <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group w-75 mx-auto my-5 ">
@@ -52,6 +52,11 @@
             <div class="form-group my-5 mx-auto tiping w-50">
                 <label for="content">Inserisci descrizione</label>
                 <textarea name="content" id="content"class="form-control" cols="30" rows="10">{{ old('content') }}</textarea>
+            </div>
+
+            <div class="my-3 w-50 mx-auto">
+                <label for="image" class="form-label">Carica immagine</label>
+                <input type="file" class="form-control" id="image" name="image" >
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

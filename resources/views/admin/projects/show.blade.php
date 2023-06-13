@@ -15,7 +15,8 @@
     <div class="tecno d-flex my-5 gap-4">
         <h4 class="tiping">Tecnologie usate:</h4>
 
-        @forelse ($project->technologies as $item) {{-- il forelse è un foreach che se non trova nulla esegue il blocco empty --}}
+        @forelse ($project->technologies as $item)
+            {{-- il forelse è un foreach che se non trova nulla esegue il blocco empty --}}
             <h5>{{ $item->name_technologies }}</h5>
         @empty
             <h5>Nessuna tecnologia usata</h5>
@@ -23,11 +24,21 @@
     </div>
 
 
+    {{-- Post image --}}
+    @if ($project->image)
+        <div class="w-50 mx-auto mt-4">
+            <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
+        </div>
+    @else
+        <div class="p-5 bg-secondary text-white">
+            NO IMAGE
+        </div>
+    @endif
+
 
     <div class="cta d-flex gap-3 my-4">
-
         <a href="{{ route('admin.projects.index') }}" class="btn btn-success">
-            Torna dietro</i>
+            Torna dietro
         </a>
         <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST">
             @csrf

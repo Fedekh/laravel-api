@@ -18,9 +18,20 @@
         @if ($butt == false)
             <a href="{{ route('admin.types.create') }}" class="btn btn-info">Aggiungi un tipo</a>
         @endif
-
-
     </div>
+
+     {{-- Filtri --}}
+     <form action="{{ route('admin.projects.index') }}" method="GET" class="my-5 ">
+        @csrf
+        <label for="type">Tipologia</label>
+        <select name="type_id" id="type" class="rounded border-0">
+            <option value="">Tutti</option>
+            @foreach ($types as $type)
+                <option value="{{ $type->id }}">{{ $type->name }}</option>
+            @endforeach
+        </select>
+        <button type="submit" class="rounded border-0">Filtra</button>
+    </form>
 
     <table class="table table-hover text-white rounded">
         <thead>

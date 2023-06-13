@@ -28,7 +28,8 @@ class UpdateProjectReqeust extends FormRequest
             'title' => ['required', 'min:3', 'max:150', Rule::unique('projects')->ignore($this->project)], //con ignore($this->project) non da errore se modifico solo content
             'content' => 'nullable|string',
             'type_id' => ['nullable', 'exists:types,id'],
-            'technologies' => ['nullable', 'exists:technologies,id']
+            'technologies' => ['nullable', 'exists:technologies,id'],
+            'image' => 'nullable'
 
 
 

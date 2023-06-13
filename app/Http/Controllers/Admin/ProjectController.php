@@ -10,6 +10,7 @@ use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -18,13 +19,23 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::paginate(10);
+        // $projects = Project::paginate(10);
+        $data = $request->all();
         $count = Project::count();
-        $butt= true;
-        $technologies=Technology::all();
-        return view('admin.projects.index', compact('projects', 'count','butt','technologies'));
+        $butt = true;
+        $types = Type::all();
+
+        $technologies = Technology::all();
+        // Se nel request abbiamo type_id filtriamo per tipologia
+        // Altrimenti facciamo vedere tutti i projects    
+        if ($request->has('type_id') && !is_null($data['type_id'])) {
+            $projects = Project::where('type_id', $data['type_id'])->paginate(10);
+        } else {
+            $projects = Project::paginate(10);
+        }
+        return view('admin.projects.index', compact('projects', 'count', 'butt', 'technologies', 'types'));
     }
 
     /**
@@ -35,8 +46,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        $technologies= Technology::all();
-        return view('admin.projects.create', compact('types','technologies'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -48,13 +59,20 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         //creazione project
-        $data=$request->validated();
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title'], '-');
-        $project = Project::create($data); 
-
+        // dd($data);
+        
+        // Salvataggio del file
+        if ($request->hasFile('image')) {
+            $path = Storage::disk('public')->put('project_images', $request->image);
+            $data['image'] = $path;
+        }
+        $project = Project::create($data);
+        
         //salvataggio dati tabella ponte
-
-        if($request->has('technologies')){
+        
+        if ($request->has('technologies')) {
             $project->technologies()->attach($request->technologies); // aattach significa che se ci sono tecnologie le salva nella tabella ponte e tecnologies è preso come metodo perchè è una relazione many to many
         }
         return redirect()->route('admin.projects.index')->with('message', 'Il progetto ' . $project->title . ' è stato creato con successo');
@@ -81,7 +99,7 @@ class ProjectController extends Controller
     {
         $types = Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.edit', compact('project', 'types','technologies'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -95,15 +113,24 @@ class ProjectController extends Controller
     {
         //aggiornamento dati project
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['title'], '-'); 
-        $project->update($data); 
-
+        $data['slug'] = Str::slug($data['title'], '-');
+        
+        if ($request->hasFile('image')) {
+            if ($project->image) {
+                Storage::delete($project->image);
+            }
+            $path = Storage::disk('public')->put('project_images', $request->image);
+            $data['image'] = $path;
+        }
+        
+        $project->update($data);
         //aggiornamento technologies
         if ($request->has('technologies')) {
             $project->technologies()->sync($request->technologies); //sync significa che se ci sono tecnologie le salva nella tabella ponte 
         } else {
             $project->technologies()->detach(); //detach significa che se non ci sono tecnologie le cancella dalla tabella ponte 
         }
+
         return redirect()->route('admin.projects.index', $project->slug)->with('message', 'Il progetto ' . $project->title . ' è stato modificato con successo');
     }
 
@@ -115,8 +142,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->technologies()->detach(); 
-        $project->delete(); 
+        $project->technologies()->detach();
+        $project->delete();
         return redirect()->route('admin.projects.index')->with('message', 'Il progetto ' . $project->title . ' è stato eliminato con successo');
     }
 }

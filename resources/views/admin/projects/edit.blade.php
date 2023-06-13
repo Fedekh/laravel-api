@@ -4,12 +4,16 @@
     <div class="container text-center">
 
 
-        <h1 class="my-3">Modifica il tuo progetto : <p class="tiping">{{ $project->title }} </p> </h1>
+        <h1 class="my-3">Modifica il tuo progetto : <p class="tiping">{{ $project->title }} </p>
+        </h1>
         <div class="">
 
-            <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST">
+            <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+
+
                 <!-- serve per sovrascrivere il metodo post dato che il form supporta solo get e post -->
                 <!-- il value è per far si che quando si tenta di modificare un dato, questo rimanga salvato -->
                 <div class="form-group w-50 mx-auto mt-5">
@@ -40,7 +44,6 @@
                     <div class="d-flex justify-content-center my-3 gap-3">
 
                         @foreach ($technologies as $key => $technology)
-
                             {{-- al primo caricamento della pagina devo selezionare i checkbox che sono salvati nel db e ho una collection di tecnologie
                             se c'è un errore al submit, devo selezionare i checkbox che sono stati selezionati dallutente nella pagina precedente, quindi ho array preso da old --}}
 
@@ -65,12 +68,29 @@
                     <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ old('description', $project->description) }}</textarea>
 
                 </div>
+
                 <div class="cta d-flex-gap-3">
                     <input type="submit" value="Salva" class="btn btn-primary">
                     <a class="btn btn-success mx-2" href="{{ route('admin.projects.index') }}">Annulla</a>
                 </div>
+ 
+                {{-- foto --}}
+                <div class="mb-3 w-50 mx-auto">
+                    <label for="image" class="form-label">Immagine</label>
+                    <input type="file" class="form-control" id="image" name="image" value="daje">
+
+                    {{-- Se il post ha l'immagine, la visulizzo --}}
+                    @if ($project->image)
+                        <div class="my-3 ">
+                            <img width="300" src="{{ asset('storage/' . $project->image) }}"
+                                alt="{{ $project->name }}">
+                        </div>
+                    @endif
+                </div>
             </form>
-            <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST" >
+
+            
+            <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn my-2 btn-danger deletBtn">
