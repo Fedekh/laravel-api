@@ -30,8 +30,8 @@
             <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
         </div>
     @else
-        <div class="p-5 bg-secondary text-white">
-            NO IMAGE
+        <div class="p-5 w-50 bg-secondary text-white">
+            IMMAGINE NON PRESENTE
         </div>
     @endif
 
