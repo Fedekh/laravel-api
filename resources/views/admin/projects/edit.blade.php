@@ -68,28 +68,32 @@
                     <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ old('description', $project->description) }}</textarea>
 
                 </div>
+                {{-- foto --}}
+                <div class="mb-3 w-50 mx-auto">
+                    <label for="image-input" class="form-label">Immagine</label>
+                    <input type="file" class="form-control" id="image-input" name="image" value="daje">
+
+                    {{-- Se il post ha l'immagine, la visulizzo --}}
+                    @if ($project->image)
+                        <div class="my-3 ">
+                            <img id="actual-image" width="300" src="{{ asset('storage/' . $project->image) }}"
+                                alt="{{ $project->name }}">
+                        </div>
+                    @endif
+                    {{-- preview --}}
+                    <div class="d-flex justify-content-center my-3">
+                        <img class="d-none" id="image-preview" src="" alt="">
+                    </div>
+                </div>
 
                 <div class="cta d-flex-gap-3">
                     <input type="submit" value="Salva" class="btn btn-primary">
                     <a class="btn btn-success mx-2" href="{{ route('admin.projects.index') }}">Annulla</a>
                 </div>
- 
-                {{-- foto --}}
-                <div class="mb-3 w-50 mx-auto">
-                    <label for="image" class="form-label">Immagine</label>
-                    <input type="file" class="form-control" id="image" name="image" value="daje">
 
-                    {{-- Se il post ha l'immagine, la visulizzo --}}
-                    @if ($project->image)
-                        <div class="my-3 ">
-                            <img width="300" src="{{ asset('storage/' . $project->image) }}"
-                                alt="{{ $project->name }}">
-                        </div>
-                    @endif
-                </div>
             </form>
 
-            
+
             <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST">
                 @csrf
                 @method('DELETE')

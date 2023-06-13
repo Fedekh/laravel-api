@@ -26,7 +26,7 @@
 
     {{-- Post image --}}
     @if ($project->image)
-        <div class="w-50 mx-auto mt-4">
+        <div class="w-50 mt-4">
             <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
         </div>
     @else

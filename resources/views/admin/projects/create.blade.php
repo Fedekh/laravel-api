@@ -34,15 +34,15 @@
             <div class="form-group my-5 ">
                 <h3 for="type" class="tiping">Tecnologie usate</h3>
                 @foreach ($technologies as $technology)
-                <div class="d-flex tech mx-auto flex-wrap my-3 gap-3">
+                    <div class="d-flex tech mx-auto flex-wrap my-3 gap-3">
 
-                    {{-- l'input deve essere selezionato solo se technology->Id è contenuto nell array old(technologies)--}}
-                    
-                    <input type="checkbox" name="technologies[]" id="technology-{{$technology->id}}"
-                    value="{{$technology->id}}" @checked(in_array($technology->id, old('technologies', [])))>
-                    <label for="">{{ $technology->name_technologies }}</label>
+                        {{-- l'input deve essere selezionato solo se technology->Id è contenuto nell array old(technologies) --}}
 
-                </div>
+                        <input type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}"
+                            value="{{ $technology->id }}" @checked(in_array($technology->id, old('technologies', [])))>
+                        <label for="">{{ $technology->name_technologies }}</label>
+
+                    </div>
                 @endforeach
 
 
@@ -54,9 +54,14 @@
                 <textarea name="content" id="content"class="form-control" cols="30" rows="10">{{ old('content') }}</textarea>
             </div>
 
+            {{-- immagine --}}
             <div class="my-3 w-50 mx-auto">
-                <label for="image" class="form-label">Carica immagine</label>
-                <input type="file" class="form-control" id="image" name="image" >
+                <label for="image-input" class="form-label">Carica immagine</label>
+                <input type="file" class="form-control" id="image-input" name="image">
+                {{-- preview --}}
+                <div class="d-flex justify-content-center my-3">
+                    <img class="d-none" id="image-preview" src="" alt="">
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -65,4 +70,6 @@
         </form>
 
     </div>
+
+    
 @endsection
