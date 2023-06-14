@@ -21,7 +21,8 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        // $projects = Project::paginate(10);
+        
+        $projects = Project::paginate(10);
         $data = $request->all();
         $count = Project::count();
         $butt = true;
