@@ -13,8 +13,9 @@ class ProjectController extends Controller
         {
             // $projects = Project::all();  
             // $projects = Project::paginate(8);   
-            $projects = Project::with(['type', 'technologies' ])->paginate(10); // con with si caricano le relazioni, si usano come argomenti i nomi delle relazioni che si trovano nei model
 
+            // con with si caricano le relazioni, si usano come argomenti i nomi delle relazioni che si trovano nei model
+            $projects = Project::with(['type', 'technologies' ])->paginate(10); 
             return response()->json([
                 'success' => true,
                 'results' => $projects

@@ -64,8 +64,8 @@
                 </div>
 
                 <div class="form-group w-50 mx-auto my-5">
-                    <label for="description" class="tiping my-4">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ old('description', $project->description) }}</textarea>
+                    <label for="content" class="tiping my-4">Descrizione</label>
+                    <textarea name="content" id="content" cols="30" rows="10" class="form-control">{{ old('content', $project->content) }}</textarea>
 
                 </div>
                 {{-- foto --}}
