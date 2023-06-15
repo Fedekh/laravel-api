@@ -16,3 +16,4 @@ use App\Http\Controllers\Api\ProjectController;
 */
 
 Route::get('projects', [ProjectController::class, 'index']); // 'projects' è il nome della rotta che si trova in app\Http\Controllers\Api\ProjectController.php
+Route::get('projects/{slug}', [ProjectController::class, 'show']); // 'projects' è il nome della rotta che si trova in app\Http\Controllers\Api\ProjectController.php
