@@ -24,7 +24,7 @@ class ProjectController extends Controller
             //scritto cosi il return significa che è un json contenente un array associativo con chiave results e valore $projects, la chiave success è un booleano che indica se la richiesta è andata a buon fine o no è facoltiva
         }
     public function show($slug){
-        $project = Project::with(['type', 'technologies' ])->where('slug', $slug)->first();
+        $project = Project::with(['type', 'technologies'])->where('slug', $slug)->first();
         if($project){
             return response()->json([
                 'success' => true,
