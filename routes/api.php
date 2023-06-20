@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LeadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProjectController;
@@ -21,3 +22,4 @@ Route::get('projects', [ProjectController::class, 'index']); // 'projects' è il
 Route::get('projects/{slug}', [ProjectController::class, 'show']); // 'projects' è il nome della rotta che si trova in app\Http\Controllers\Api\ProjectController.php
 Route::get('types', [TypeController::class, 'index']);
 Route::get('technologies', [TechnologyController::class, 'index']);
+Route::post('leads', [LeadController::class, 'store']); 

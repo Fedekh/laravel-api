@@ -14,6 +14,7 @@ class NewProject extends Mailable
     use Queueable, SerializesModels;
 
     public $project;
+
     /**
      * Create a new message instance.
      *
@@ -29,7 +30,7 @@ class NewProject extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope() //la funzione envelope la si utilizza per impostare il mittente e il destinatario
+    public function envelope() //quello che cìè nella "busta"
     {
         return new Envelope(
             subject: 'New Project',

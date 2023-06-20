@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectReqeust;
+use App\Mail\NewProject;
 use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -62,6 +65,7 @@ class ProjectController extends Controller
         //creazione project
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title'], '-');
+        $data['user_id'] = Auth::user()->id;
         // dd($data);
         
         // Salvataggio del file
@@ -69,10 +73,15 @@ class ProjectController extends Controller
             $path = Storage::disk('public')->put('project_images', $request->image);
             $data['image'] = $path;
         }
+
+        //salvataggio project in DB
         $project = Project::create($data);
+
+        //email all amminastratore con avviso del nuovo project
+        Mail::to('federicocet@gmail.com')->send(new NewProject($project));
+        
         
         //salvataggio dati tabella ponte
-        
         if ($request->has('technologies')) {
             $project->technologies()->attach($request->technologies); // aattach significa che se ci sono tecnologie le salva nella tabella ponte e tecnologies è preso come metodo perchè è una relazione many to many
         }
