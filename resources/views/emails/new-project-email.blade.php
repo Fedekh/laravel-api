@@ -3,7 +3,7 @@
 <p>
     E' stato pubblicato un nuovo project. <br>
     Titolo: {{ $project->title }}  <br>
-    Creato da: {{ $project->user->name }}
+    {{-- Creato da: {{ $project->user->name }} --}}
 </p>
 
 

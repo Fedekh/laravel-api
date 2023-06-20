@@ -44,7 +44,7 @@ class NewLead extends Mailable
     public function content()
     {
         return new Content(
-            view: 'email.new-lead-email',
+            view: 'emails.new-lead-email',
         );
     }
 
