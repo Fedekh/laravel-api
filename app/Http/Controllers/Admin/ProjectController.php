@@ -30,8 +30,8 @@ class ProjectController extends Controller
         $count = Project::count();
         $butt = true;
         $types = Type::all();
-
         $technologies = Technology::all();
+        
         // Se nel request abbiamo type_id filtriamo per tipologia
         // Altrimenti facciamo vedere tutti i projects    
         if ($request->has('type_id') && !is_null($data['type_id'])) {
